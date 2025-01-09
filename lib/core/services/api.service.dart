@@ -11,7 +11,7 @@ abstract class ApiService {
     printEmojis: true,
   ));
 
-  Dio instance([String baseUrl = 'http://192.168.1.32:8000/v2']) {
+  Dio instance([String baseUrl = 'http://192.168.1.6:8000/v1']) {
     final options = BaseOptions(
       baseUrl: baseUrl,
       connectTimeout: const Duration(seconds: 50),
@@ -22,7 +22,7 @@ abstract class ApiService {
     return Dio(options)..interceptors.addAll([LoggerInterceptor()]);
   }
 
-  Dio instanceAsForm([String baseUrl = 'http://192.168.1.32:8000/v2']) {
+  Dio instanceAsForm([String baseUrl = 'http://192.168.1.6:8000/v1']) {
     final options = BaseOptions(
       baseUrl: baseUrl,
       connectTimeout: const Duration(seconds: 50),

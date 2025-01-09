@@ -290,30 +290,33 @@ class HomeView extends GetView<UIHomeController> {
                                       Size size = MediaQuery.of(context).size;
 
                                       return Obx(() {
-                                        final data = controller.dataResponse.value.results[index];
+                                        final data = controller.movieDiscoverData.value;
                                         return InkWell(
                                           focusColor: XColors.obsuccess,
                                           onTap: () async {
-                                            print('Object ${data.title}');
+                                            print('Object ${data[index].title}');
                                           },
                                           child: InkWell(
                                             onTap: () {
-                                              Get.toNamed('/movies');
+                                              Get.toNamed('/movies', arguments: {
+                                                'oblixId': data[index].oblixId,
+                                                'type': 'discover' // TODO: change it!
+                                              });
                                             },
                                             child: TransparentImageCard(
                                               width: size.width,
                                               height: size.height,
-                                              imageProvider: NetworkImage('https://image.tmdb.org/t/p/original${data.backdropPath}'),
+                                              imageProvider: NetworkImage(controller.movieService.getImageUrl(data[index].id, 'backdrop')),
                                               tags: [],
                                               title: Text(
-                                                data.title,
-                                                style: TypographyBuilder().textSm.setFontWeight(FontWeight.bold).textObwhite50.build(),
+                                                data[index].title,
+                                                style: TypographyBuilder().textXl2.setFontWeight(FontWeight.bold).textObwhite50.build(),
                                                 maxLines: 1,
                                                 overflow: TextOverflow.ellipsis,
                                               ),
                                               description: Text(
-                                                data.overview,
-                                                style: TypographyBuilder().textXs.textObblack100.build(),
+                                                data[index].overview,
+                                                style: TypographyBuilder().textBase.textObblack100.build(),
                                                 maxLines: 2,
                                                 overflow: TextOverflow.ellipsis,
                                               ),

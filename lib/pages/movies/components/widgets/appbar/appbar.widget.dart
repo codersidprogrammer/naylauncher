@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:naylauncher/pages/movies/components/widgets/appbar/appbar.widget.controller.dart';
 import 'package:naylauncher/shared/components/circular-outlined-button.component.dart';
@@ -7,10 +8,21 @@ import 'package:xtyle/main.dart';
 
 class AppbarWidget extends GetWidget<MoviesAppbarWidgetController> {
   final List<Widget> actionWidgets;
+  static const platform = MethodChannel('com.example.naylauncher');
+
   const AppbarWidget({
     super.key,
     required this.actionWidgets,
   });
+
+  Future<void> openAndroidSettings() async {
+    try {
+      // Call the native method
+      await platform.invokeMethod('openSettings');
+    } on PlatformException catch (e) {
+      print("Failed to open settings: ${e.message}");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +57,7 @@ class AppbarWidget extends GetWidget<MoviesAppbarWidgetController> {
               autoFocus: true,
               onPressed: () {
                 print("Button Pressed Apps");
+                openAndroidSettings();
               },
             ),
 
